@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body align="center">
+    <h1>Student Registration Portal</h1>
+    <p>Welcome to SRM Institute.Please fill out the registration form below.</p>
+    <hr>
+    <h2>Student Profile</h2>
+    <img src="./photo/images.jpg" alt="Student Image" width="200" height="200">
+    <hr>
+    <h2>Student Registration Form</h2>
+    <form action="submit">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+        <br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+        <br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <br><br>
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+        <br><br>
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
+        <br><br>
+
+        <label for="gender">Gender:</label>
+
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+        
+        <input type="radio" id="other" name="gender" value="other">
+        <label for="other">Other</label>
+        
+        <br><br>
+        <label for="skills">Skills:</label>
+        <br><br>
+        <input type="checkbox" id="HTML" name="skills" value="HTML">
+        <label for="HTML">HTML</label> 
+        <input type="checkbox" id="CSS" name="skills" value="CSS">
+        <label for="CSS">CSS</label> 
+        <input type="checkbox" id="JavaScript" name="skills" value="JavaScript">
+        <label for="JavaScript">JavaScript</label> 
+        <input type="checkbox" id="React" name="skills" value="React">
+        <label for="React">React</label> 
+        <br><br>
+        <label for="course">Select Course:</label>
+        <input type="option" id="course" name="course" list="courses">
+        <datalist id="courses">
+            <option value="B.Tech">
+            <option value="M.Tech">
+            <option value="BBA">
+            <option value="MBA">
+            <option value="BCA">
+            <option value="MCA">
+        </datalist>
+        <br><br>
+        
+        
+
+    </form>
+
+</body>
+</html>
