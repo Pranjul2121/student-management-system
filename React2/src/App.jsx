@@ -42,21 +42,52 @@ import React, {useState} from 'react';
 import axios from "axios";
 
 const App=()=>{
+
+
   const[limit,setLimit]=useState(0);
+
+  const[searchProduct,setSearchProduct]=useState("");
+
+  const[filteredProductData,setFilteredProductData]=useState([]);
+  
   const [productData, setProductData] = useState([]);
+  
+  
   console.log("limit:",limit)
+
+
   async function getProduct(){
     const response=await axios.get(`https://dummyjson.com/products?limit=${limit}`);
-    console.log("Response:",response.data.products);
+    
     setProductData(response.data.products);
+    setFilteredProductData(response.data.products);
   }
   
   //jsx ke andr javascript likhne ke liye {} ka use krte h
   // getProduct();
 
+
+
   useEffect(()=>{ //manage side effects in functional components   pehele upr wala phir niche wala fir last m yeh useeffect chlegaS
     getProduct();
   },[limit])
+
+ function handleAddToCart(product) {
+    console.log("product:", product);
+  }
+
+function handleProductSearch(){
+  const filteredProductDataResponse=productData.filter((eachProductItem)=>{
+    return(eachProductItem.title.toLowerCase().includes(searchProduct.toLowerCase()) 
+    ||
+     eachProductItem.category.toLowerCase().includes(searchProduct.toLowerCase())
+    ||
+    eachProductItem.tags.some((item)=>item.toLowerCase().includes(searchProduct.toLowerCase()),
+  )|| (eachProductItem.brand || "").includes(searchProduct.toLowerCase())
+);
+  },);
+  setFilteredProductData(filteredProductDataResponse);
+}
 
   // if(productData.length==0){//early return
   //   return<>
@@ -67,27 +98,65 @@ const App=()=>{
   return(
     <>
     <h1 className="text-2x1 font-bold text-center mt-12 p-6"> Ecommerce Website</h1>
-    <div className="flex flex-col justify-center items-center gape-4">
+    
+    <div className="flex justify-between items-center gap-4 p-4">
+      <div className="flex flex-col">
       <label>Enter product limit No:</label>
       <input type="number" placeholder="Enter Product No" className="border border-b-black p-2" onChange={(e)=>{
         setLimit(e.target.value);
       }}/>
+
       <p className="text-x1 font-bold">
-        Total Number of Product:{productData.length}
+        Total Number of Product:{filteredProductData.length}
       </p>
+
       </div>
     
-    <div className="flex justify-center items-center flex-wrap dap-12 mt-12">
-      {productData.map((item)=>{
+
+
+      <div className="flex justify-center items-center gap-4 p-2">
+          <div className="flex flex-col">
+            <label htmlFor="">Search your product</label>
+            <input
+              onChange={(e) => {
+                setSearchProduct(e.target.value);
+              }}
+              value={searchProduct}
+              className="border border-b-black p-2"
+              type="text"
+              placeholder="Enter search Item"
+            />
+          </div>
+
+          <button
+            onClick={handleProductSearch}
+            className="p-2 mt-7 border border-red-600 bg-yellow-400 hover:bg-white cursor-pointer"
+          >
+            🔎 Search
+          </button>
+        </div>
+        </div>
+      
+
+    <div className="flex justify-center items-center flex-wrap gap-12 mt-12">
+
+      {filteredProductData.map((item)=>{
+        
         return(
-          <div key={item.id} className="w-80 flex justify-center items-center flex-col border border-b-black gap-2 p-4">
+          <div className="w-80 flex justify-center items-center flex-col border border-b-black gap-2 p-4">
             <h1>Brand:{item.brand}</h1>
             <img width={200} height={100} src={item.images[0]} alt="product image" />
             <h1>Title:{item.title}</h1>
             <h1>Description:{item.description}</h1>
             <h1 className="font-bold">Category:{item.category}</h1>
             <h1 className="text-red-600 font-bold">Price:{item.price}</h1>
-            
+            <button onClick={()=>{
+              handleAddToCart(item);
+            }}
+            className="text-[16px] border border-red-600 bg-amber-300 rounded-x1 p-2 hover:bg-zinc-200 cursor-pointer"
+            >
+              Add to Cart
+            </button>
           </div>
         )
       })}
@@ -95,6 +164,13 @@ const App=()=>{
     </div>
     </>
   )
+
+}
+
+export default App;
+
+
+
 
 //for logics
   // return(
@@ -116,8 +192,3 @@ const App=()=>{
   // )}
   // </>
   // )
-
-
-}
-
-export default App;
